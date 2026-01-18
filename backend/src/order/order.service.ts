@@ -13,6 +13,15 @@ export class OrderService {
   ) {}
 
   async create(order: OrderDto) {
+    const items: Array<{
+      film: string;
+      session: string;
+      daytime: string;
+      hall: number;
+      row: number;
+      seat: number;
+      price: number;
+    }> = [];
     for (const t of order.tickets) {
       const filmDoc = await this.filmService.findByIdWithSchedule(t.film);
       if (!filmDoc) throw new BadRequestException('Фильм не найден');
@@ -27,8 +36,18 @@ export class OrderService {
       }
       scheduleItem.taken.push(key);
       await filmDoc.save();
+
+      items.push({
+        film: t.film,
+        session: t.session,
+        daytime: scheduleItem.daytime,
+        hall: scheduleItem.hall,
+        row: t.row,
+        seat: t.seat,
+        price: scheduleItem.price,
+      });
     }
-    const created = this.orderModel.create(order);
-    return { items: (await created).tickets };
+    await this.orderModel.create(order);
+    return { total: items.length, items };
   }
 }
