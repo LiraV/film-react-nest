@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
 import { configProvider } from './app.config.provider';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
+import { StaticController } from './static.controller';
 
 @Module({
   imports: [
@@ -16,10 +16,6 @@ import { OrderModule } from './order/order.module';
     }),
     FilmsModule,
     OrderModule,
-    ServeStaticModule.forRoot({
-      rootPath: path.resolve(__dirname, '..', 'public', 'content', 'afisha'),
-      serveRoot: '/content/afisha',
-    }),
     MongooseModule.forRoot(
       process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017/afisha',
       {
@@ -27,7 +23,7 @@ import { OrderModule } from './order/order.module';
       },
     ),
   ],
-  controllers: [],
+  controllers: [StaticController],
   providers: [configProvider],
 })
 export class AppModule {}

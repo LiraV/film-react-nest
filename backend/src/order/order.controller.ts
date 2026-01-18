@@ -7,7 +7,17 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  createOrder(@Body() dto: OrderDto) {
-    return this.orderService.create(dto);
+  async createOrder(@Body() dto: OrderDto) {
+    await this.orderService.create(dto);
+
+    return {
+      total: dto.tickets.length,
+      items: dto.tickets.map(t => ({
+        film: t.film,
+        session: t.session,
+        row: t.row,
+        seat: t.seat,
+      }))
+    };
   }
 }
