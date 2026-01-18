@@ -5,7 +5,7 @@ export type TakenSeat = string;
 export interface IScheduleItem {
   id: string;
   daytime: string;
-  hall: string;
+  hall: number;
   rows: number;
   seats: number;
   price: number;
@@ -36,7 +36,7 @@ export const scheduleSchema = new Schema<IScheduleItem>(
       required: true,
     },
     hall: {
-      type: String,
+      type: Number,
       required: true,
     },
     rows: {

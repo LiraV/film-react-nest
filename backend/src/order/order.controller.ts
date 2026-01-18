@@ -12,12 +12,12 @@ export class OrderController {
 
     return {
       total: dto.tickets.length,
-      items: dto.tickets.map(t => ({
+      items: dto.tickets.map((t) => ({
         film: t.film,
         session: t.session,
         row: t.row,
         seat: t.seat,
-      }))
+      })),
     };
   }
 }

@@ -7,6 +7,7 @@ import { configProvider } from './app.config.provider';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
 import { StaticController } from './static.controller';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -22,6 +23,13 @@ import { StaticController } from './static.controller';
         serverSelectionTimeoutMS: 3000,
       },
     ),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, '..', 'public', 'content', 'afisha'),
+      serveRoot: '/content/afisha',
+      serveStaticOptions: {
+        index: false,
+      },
+    }),
   ],
   controllers: [StaticController],
   providers: [configProvider],
