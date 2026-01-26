@@ -14,13 +14,16 @@ export class FilmsController {
   @Get(':id/schedule')
   async getFilmSchedule(@Param('id') id: string) {
     const film = await this.filmService.findByIdWithSchedule(id);
-    const schedule = film.schedule ?? [];
-    const filmInfo = film.toObject();
-    delete film.schedule;
+    const schedule = (film as any).schedule ?? [];
+    const filmInfo =
+      typeof (film as any).toObject === 'function'
+        ? (film as any).toObject()
+        : film;
+    delete (film as any).schedule;
     return {
-      ...filmInfo,
+      ...(filmInfo as any),
       total: schedule.length,
-      items: film.schedule,
+      items: schedule,
     };
   }
 }

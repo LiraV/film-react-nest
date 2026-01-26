@@ -26,16 +26,16 @@ export class OrderService {
       const filmDoc = await this.filmService.findByIdWithSchedule(t.film);
       if (!filmDoc) throw new BadRequestException('Фильм не найден');
 
-      const scheduleItem = filmDoc.schedule.find((s) => s.id === t.session);
+      const scheduleItem = (filmDoc.schedule ?? []).find(
+        (s) => s.id === t.session,
+      );
       if (!scheduleItem) throw new BadRequestException('Сеанс не найден');
 
       const key = `${t.row}:${t.seat}`;
-      const taken = scheduleItem.taken ?? [];
-      if (taken.includes(key)) {
-        throw new BadRequestException('место занято');
-      }
-      scheduleItem.taken.push(key);
-      await filmDoc.save();
+
+      const taken = await this.filmService.takeSeat(t.film, t.session, key);
+      if (taken.modifiedCount === 0)
+        throw new BadRequestException('Место занято');
 
       items.push({
         film: t.film,
@@ -47,7 +47,6 @@ export class OrderService {
         price: scheduleItem.price,
       });
     }
-    await this.orderModel.create(order);
     return { total: items.length, items };
   }
 }
