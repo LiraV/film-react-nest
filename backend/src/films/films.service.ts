@@ -1,30 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { IFilm } from './films.model';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+import { Injectable, Inject } from '@nestjs/common';
+import { FILMS_REPO, FilmsRepository } from 'src/repository/films.repository';
 
 @Injectable()
 export class FilmsService {
-  constructor(@InjectModel('Film') private filmModel: Model<IFilm>) {}
+  constructor(@Inject(FILMS_REPO) private repo: FilmsRepository) {}
 
   findAll() {
-    return this.filmModel.find().lean();
+    return this.repo.findAll();
   }
 
   findByIdWithSchedule(id: string) {
-    return this.filmModel.findOne({ id });
+    return this.repo.findByIdWithSchedule(id);
   }
 
   async takeSeat(filmId: string, sessionId: string, place: string) {
-    return this.filmModel.updateOne(
-      {
-        id: filmId,
-        'schedule.id': sessionId,
-        'schedule.taken': { $ne: place },
-      },
-      {
-        $push: { 'schedule.$.taken': place },
-      },
-    );
+    return this.repo.takeSeat(filmId, sessionId, place);
   }
 }

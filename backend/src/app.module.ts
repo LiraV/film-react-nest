@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
@@ -8,6 +7,13 @@ import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
 import { StaticController } from './static.controller';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { DatabasePgModule } from './database/database.pg.module';
+import { DatabaseMongoModule } from './database/database.mongo.module';
+
+const dbModule =
+  process.env.DATABASE_DRIVER === 'postgres'
+    ? DatabasePgModule
+    : DatabaseMongoModule;
 
 @Module({
   imports: [
@@ -15,14 +21,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       isGlobal: true,
       cache: true,
     }),
+    dbModule,
     FilmsModule,
     OrderModule,
-    MongooseModule.forRoot(
-      process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017/afisha',
-      {
-        serverSelectionTimeoutMS: 3000,
-      },
-    ),
+    DatabaseMongoModule,
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, '..', 'public', 'content', 'afisha'),
       serveRoot: '/content/afisha',
