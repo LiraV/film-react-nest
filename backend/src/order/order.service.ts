@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { IOrder } from './order.models';
 import { OrderDto } from './dto/order.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilmsService } from 'src/films/films.service';
+import { FilmsService } from '../films/films.service';
 
 @Injectable()
 export class OrderService {
