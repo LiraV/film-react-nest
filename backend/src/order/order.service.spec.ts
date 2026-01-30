@@ -17,9 +17,10 @@ describe('OrderService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrderService,
-        { provide: getModelToken('Order'), useValue: orderModelMock},
-        { provide: FilmsService, useValue: filmsServiceMock},
+      providers: [
+        OrderService,
+        { provide: getModelToken('Order'), useValue: orderModelMock },
+        { provide: FilmsService, useValue: filmsServiceMock },
       ],
     }).compile();
 

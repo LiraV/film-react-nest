@@ -7,15 +7,16 @@ describe('FilmsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FilmsService,
+      providers: [
+        FilmsService,
         {
           provide: FILMS_REPO,
           useValue: {
             findAll: jest.fn(),
             findByIdWithSchedule: jest.fn(),
             takeSeat: jest.fn(),
-          }
-        }
+          },
+        },
       ],
     }).compile();
 
