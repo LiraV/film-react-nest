@@ -8,6 +8,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api/afisha');
   app.enableCors();
   app.useLogger(buildLogger());
-  await app.listen(process.env.DATABASE_PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
