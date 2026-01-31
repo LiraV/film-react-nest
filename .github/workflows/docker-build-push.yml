@@ -45,6 +45,6 @@ jobs:
       - name: Build & push nginx
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend/nginx
+          context: ./frontend/nginx/nginx
           push: true
           tags: ghcr.io/lirav/film-react-nest--nginx:latest
