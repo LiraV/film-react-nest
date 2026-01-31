@@ -45,26 +45,13 @@ services:
     ports:
       - "3000:3000"
 
-  frontend-build:
-    image: ghcr.io/valeriiakharitonova/dev/film-react-nest-frontend:latest
-    build:
-      context: ./frontend
-    volumes:
-      - frontend_dist:/dist
-    networks:
-      - appnet
-
-  nginx:
-    image: ghcr.io/valeriiakharitonova/dev/film-react-nest-nginx:latest
-    build:
-      context: ./nginx
-    depends_on:
-      - backend
-      - frontend-build
+  frontend:
+    image: ghcr.io/lirav/film-react-nest--frontend:latest
     ports:
       - "80:80"
-    volumes:
-      - frontend_dist:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    restart: always
     networks:
       - appnet
 
