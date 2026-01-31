@@ -1,5 +1,8 @@
 # FILM!
 
+## Ссылка на деплой: 
+http://film-nest-lirav.nomorepartiessbs.ru/
+
 ## Установка
 
 ### MongoDB

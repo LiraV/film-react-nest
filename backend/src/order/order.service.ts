@@ -1,16 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { IOrder } from './order.models';
 import { OrderDto } from './dto/order.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { FilmsService } from 'src/films/films.service';
+import { FilmsService } from '../films/films.service';
 
 @Injectable()
 export class OrderService {
-  constructor(
-    @InjectModel('Order') private orderModel: Model<IOrder>,
-    private filmService: FilmsService,
-  ) {}
+  constructor(private filmService: FilmsService) {}
 
   async create(order: OrderDto) {
     const items: Array<{
@@ -22,6 +16,7 @@ export class OrderService {
       seat: number;
       price: number;
     }> = [];
+
     for (const t of order.tickets) {
       const filmDoc = await this.filmService.findByIdWithSchedule(t.film);
       if (!filmDoc) throw new BadRequestException('Фильм не найден');
@@ -47,6 +42,7 @@ export class OrderService {
         price: scheduleItem.price,
       });
     }
+
     return { total: items.length, items };
   }
 }

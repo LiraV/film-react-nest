@@ -3,8 +3,8 @@ import { IFilm } from '../films/films.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FilmEntity } from 'src/database/entities/film.entity';
-import { ScheduleEntity } from 'src/database/entities/schedule.entity';
+import { FilmEntity } from '../database/entities/film.entity';
+import { ScheduleEntity } from '../database/entities/schedule.entity';
 import { Repository } from 'typeorm';
 
 export interface FilmsRepository {

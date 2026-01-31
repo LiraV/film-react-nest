@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { filmSchema } from 'src/films/films.model';
-import { OrderSchema } from 'src/order/order.models';
+import { filmSchema } from '../films/films.model';
+import { OrderSchema } from '../order/order.models';
 
 @Module({
   imports: [

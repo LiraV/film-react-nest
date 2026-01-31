@@ -24,7 +24,6 @@ const dbModule =
     dbModule,
     FilmsModule,
     OrderModule,
-    DatabaseMongoModule,
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, '..', 'public', 'content', 'afisha'),
       serveRoot: '/content/afisha',
