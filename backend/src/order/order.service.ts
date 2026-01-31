@@ -21,13 +21,16 @@ export class OrderService {
       const filmDoc = await this.filmService.findByIdWithSchedule(t.film);
       if (!filmDoc) throw new BadRequestException('Фильм не найден');
 
-      const scheduleItem = (filmDoc.schedule ?? []).find((s) => s.id === t.session);
+      const scheduleItem = (filmDoc.schedule ?? []).find(
+        (s) => s.id === t.session,
+      );
       if (!scheduleItem) throw new BadRequestException('Сеанс не найден');
 
       const key = `${t.row}:${t.seat}`;
 
       const taken = await this.filmService.takeSeat(t.film, t.session, key);
-      if (taken.modifiedCount === 0) throw new BadRequestException('Место занято');
+      if (taken.modifiedCount === 0)
+        throw new BadRequestException('Место занято');
 
       items.push({
         film: t.film,

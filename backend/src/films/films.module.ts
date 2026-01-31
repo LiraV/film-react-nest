@@ -4,7 +4,6 @@ import { FilmsService } from './films.service';
 import { filmSchema } from './films.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
-  AppFilmsRepository,
   MongoFilmsRepository,
   PgFilmsRepository,
 } from '../repository/films.repository';
@@ -28,7 +27,9 @@ const isPg = process.env.DATABASE_DRIVER === 'postgres';
       ? [DatabasePgModule]
       : [
           DatabaseMongoModule,
-          MongooseModule.forFeature([{ name: 'Film', schema: filmSchema, collection: 'films' }]),
+          MongooseModule.forFeature([
+            { name: 'Film', schema: filmSchema, collection: 'films' },
+          ]),
         ]),
   ],
   controllers: [FilmsController],
@@ -51,6 +52,8 @@ const isPg = process.env.DATABASE_DRIVER === 'postgres';
           MongoFilmsRepository,
           { provide: FILMS_REPO, useExisting: MongoFilmsRepository },
         ]),
+    /*AppFilmsRepository,
+    { provide: FILMS_REPO, useExisting: AppFilmsRepository },*/
   ],
   exports: [FilmsService],
 })
