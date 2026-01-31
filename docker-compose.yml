@@ -46,7 +46,7 @@ services:
       - "3000:3000"
 
   frontend:
-    image: ghcr.io/lirav/film-react-nest--frontend:latest
+    image: ghcr.io/valeriiakharitonova/dev/film-react-nest--frontend:latest
     ports:
       - "80:80"
     depends_on:
